@@ -86,7 +86,7 @@ public class FixPositions : MonoBehaviour
             prank[i] = (int)((pieces[i].transform.position.z+7.5)/1.5);
             board[prevf[i],prank[i]] = i;
         }
-        Debug.Log(board[5,1]);
+        //Debug.Log(board[5,1]);
         /*
         pos = new float[10]; //pos = {0f, -5.25f, -3.75f, -2.25f, -0.75f, 0.75f, 2.25f, 3.75f, 5.25f, 0f};
         float[] file = new float[10];
@@ -126,11 +126,130 @@ public class FixPositions : MonoBehaviour
                     int newfile = (int)((pieces[i].transform.position.x+7.5)/1.5);
                     int newrank = (int)((pieces[i].transform.position.z+7.5)/1.5);
                     bool valid = false;
-                    if(((int)(i/8))%2==1 /* is pawn */){
-                        if(((int)(i/16))%2==0 /* is white */ && newfile==prevf[i] && newrank==prank[i]+1 && board[newfile,newrank]==-1){valid = true;}
+                    bool invalid = false;
+                    if(((int)(i/8))%2==1 /*is pawn*/){
+                        if(((int)(i/16))%2==0 /*is white*/ && newfile==prevf[i] && newrank==prank[i]+1 && board[newfile,newrank]==-1){valid = true;}
                         else if(((int)(i/16))%2==0 && newfile==prevf[i] && newrank==prank[i]+2 && prank[i]==2 && board[newfile,newrank]==-1){valid = true;}
-                        else if(((int)(i/16))%2==1 /* is black */ && newfile==prevf[i] && newrank==prank[i]-1 && board[newfile,newrank]==-1){valid = true;}
-                        else if(((int)(i/16))%2==1 && newfile==prevf[i] && newrank==prank[i]-2 && prank[i]==6 && board[newfile,newrank]==-1){valid = true;}
+                        else if(((int)(i/16))%2==1 /*is black*/ && newfile==prevf[i] && newrank==prank[i]-1 && board[newfile,newrank]==-1){valid = true;}
+                        else if(((int)(i/16))%2==1 && newfile==prevf[i] && newrank==prank[i]-2 && prank[i]==7 && board[newfile,newrank]==-1){valid = true;}
+                        else if(((int)(i/16))%2==0 && Math.Abs(newfile-prevf[i])==1 && newrank==prank[i]+1 && board[newfile,newrank]>=16){
+                            //capture
+                            valid = true;
+                            pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                        }
+                        else if(((int)(i/16))%2==1 && Math.Abs(newfile-prevf[i])==1 && newrank==prank[i]-1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                            valid = true;
+                            pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                        }
+                    }
+                    else if(i==0 || i==7 || i==16 || i==23 /*rook*/){
+                        //check if a piece is in the way
+                        if(newfile==prevf[i] && newrank!=prank[i]){
+                            for(int j=prank[i]+Math.Sign(newrank-prank[i]); j!=newrank; j+=Math.Sign(newrank-prank[i])){
+                                if(board[newfile, j]!=-1){invalid = true; break;}
+                            }
+                        }
+                        else if(newfile!=prevf[i] && newrank==prank[i]){
+                            for(int j=prevf[i]+Math.Sign(newfile-prevf[i]); j!=newfile; j+=Math.Sign(newfile-prevf[i])){
+                                if(board[j, newrank]!=-1){invalid = true; break;}
+                            }
+                        }
+                        if(!invalid && (newfile==prevf[i] ^ newrank==prank[i])){
+                            if(board[newfile,newrank]==-1){valid = true;}
+                            else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                            else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                        }
+                    }
+                    else if(i==1 || i==6 || i==17 || i==22 /*knight*/){
+                        if(Math.Abs(newfile-prevf[i])==2 && Math.Abs(newrank-prank[i])==1 || Math.Abs(newfile-prevf[i])==1 && Math.Abs(newrank-prank[i])==2){
+                            if(board[newfile,newrank]==-1){valid = true;}
+                            else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                            else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                        }
+                    }
+                    else if(i==2 || i==5 || i==18 || i==21 /*bishop*/){
+                        if(newfile!=prevf[i] && Math.Abs(newfile-prevf[i])==Math.Abs(newrank-prank[i])){
+                            for(int j=1; j<Math.Abs(newfile-prevf[i]); j++){
+                                if(board[prevf[i]+j*Math.Sign(newfile-prevf[i]),prank[i]+j*Math.Sign(newrank-prank[i])]!=-1){invalid = true; break;}
+                            }
+                            if(!invalid){
+                                if(board[newfile,newrank]==-1){valid = true;}
+                                else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                                else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                            }
+                        }
+                    }
+                    else if(i==3 || i==19 /*queen*/){
+                        if(newfile==prevf[i] ^ newrank==prank[i] /*rook movement*/){
+                            if(newfile==prevf[i] && newrank!=prank[i]){
+                                for(int j=prank[i]+Math.Sign(newrank-prank[i]); j!=newrank; j+=Math.Sign(newrank-prank[i])){
+                                    if(board[newfile, j]!=-1){invalid = true; break;}
+                                }
+                            }
+                            else if(newfile!=prevf[i] && newrank==prank[i]){
+                                for(int j=prevf[i]+Math.Sign(newfile-prevf[i]); j!=newfile; j+=Math.Sign(newfile-prevf[i])){
+                                    if(board[j, newrank]!=-1){invalid = true; break;}
+                                }
+                            }
+                            if(!invalid){
+                                if(board[newfile,newrank]==-1){valid = true;}
+                                else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                                else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                            }
+                        }
+                        else if(newfile!=prevf[i] && Math.Abs(newfile-prevf[i])==Math.Abs(newrank-prank[i]) /*bishop movement*/){
+                            for(int j=1; j<Math.Abs(newfile-prevf[i]); j++){
+                                if(board[prevf[i]+j*Math.Sign(newfile-prevf[i]),prank[i]+j*Math.Sign(newrank-prank[i])]!=-1){invalid = true; break;}
+                            }
+                            if(!invalid){
+                                if(board[newfile,newrank]==-1){valid = true;}
+                                else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                                else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                    valid = true;
+                                    pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                }
+                            }
+                        }
+                    }
+                    else if(i==4 || i==20 /*king*/){
+                        if((newfile==prevf[i] ^ newrank==prank[i]) && Math.Abs(newfile-prevf[i])<=1 && Math.Abs(newrank-prank[i])<=1){
+                            if(board[newfile,newrank]==-1){valid = true;}
+                            else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                            else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
+                                valid = true;
+                                pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                            }
+                        }
                     }
                     if(valid){
                         board[prevf[i],prank[i]] = -1;
@@ -138,6 +257,7 @@ public class FixPositions : MonoBehaviour
                         prank[i] = newrank;
                         pieces[i].transform.position = new Vector3((float)(-6.75+1.5*prevf[i]), (float)(0.45-(((int)(i/8))%2)*0.17), (float)(-6.75+1.5*prank[i]));
                         board[prevf[i],prank[i]] = i;
+                        Debug.Log(board[prevf[i],prank[i]]);
                     }
                     else{
                         pieces[i].transform.position = new Vector3((float)(-6.75+1.5*prevf[i]), (float)(0.45-(((int)(i/8))%2)*0.17), (float)(-6.75+1.5*prank[i]));
