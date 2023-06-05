@@ -3,7 +3,39 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - WP1
+  - WP2
+  - WP3
+  - WP4
+  - WP5
+  - WP6
+  - WP7
+  - WP8
+  - WQ
+  - WK
+  - WB1
+  - WB2
+  - WKN1
+  - WKN2
+  - WR1
+  - WR2
+  - BP1
+  - BP2
+  - BP3
+  - BP4
+  - BP5
+  - BP6
+  - BP7
+  - BP8
+  - BQ
+  - BK
+  - BB1
+  - BB2
+  - BKN1
+  - BKN2
+  - BR1
+  - BR2
   layers:
   - Default
   - TransparentFX
@@ -40,4 +72,100 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: WP1
+    uniqueID: 841728655
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 1246136083
+    locked: 0
+  - name: New Layer 3
+    uniqueID: 694675487
+    locked: 0
+  - name: New Layer 4
+    uniqueID: 1292675829
+    locked: 0
+  - name: New Layer 5
+    uniqueID: 3742304541
+    locked: 0
+  - name: New Layer 6
+    uniqueID: 1907505931
+    locked: 0
+  - name: New Layer 7
+    uniqueID: 4185967039
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 2575603807
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 391168263
+    locked: 0
+  - name: New Layer 10
+    uniqueID: 2334088103
+    locked: 0
+  - name: New Layer 11
+    uniqueID: 3199493429
+    locked: 0
+  - name: New Layer 12
+    uniqueID: 3071876631
+    locked: 0
+  - name: New Layer 13
+    uniqueID: 1706811143
+    locked: 0
+  - name: New Layer 14
+    uniqueID: 4048378707
+    locked: 0
+  - name: New Layer 15
+    uniqueID: 129841203
+    locked: 0
+  - name: New Layer 16
+    uniqueID: 2000251189
+    locked: 0
+  - name: New Layer 17
+    uniqueID: 3184054435
+    locked: 0
+  - name: New Layer 18
+    uniqueID: 3131691667
+    locked: 0
+  - name: New Layer 19
+    uniqueID: 3232391257
+    locked: 0
+  - name: New Layer 20
+    uniqueID: 590025795
+    locked: 0
+  - name: New Layer 21
+    uniqueID: 4210066179
+    locked: 0
+  - name: New Layer 22
+    uniqueID: 2580822661
+    locked: 0
+  - name: New Layer 23
+    uniqueID: 1127229841
+    locked: 0
+  - name: New Layer 24
+    uniqueID: 1906614429
+    locked: 0
+  - name: New Layer 25
+    uniqueID: 1979778527
+    locked: 0
+  - name: New Layer 26
+    uniqueID: 2422957023
+    locked: 0
+  - name: New Layer 27
+    uniqueID: 1832027471
+    locked: 0
+  - name: New Layer 28
+    uniqueID: 38989573
+    locked: 0
+  - name: New Layer 29
+    uniqueID: 202604031
+    locked: 0
+  - name: New Layer 30
+    uniqueID: 1855383301
+    locked: 0
+  - name: New Layer 31
+    uniqueID: 2523581213
+    locked: 0
+  - name: New Layer 32
+    uniqueID: 3478454743
     locked: 0
