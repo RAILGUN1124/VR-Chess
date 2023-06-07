@@ -43,6 +43,7 @@ public class FixPositions : MonoBehaviour
     public GameObject playercam;
     public AudioSource audioSource;
     public AudioSource audioSourceCapture;
+    public GameObject GameOverScreen;
     public GameObject[] pieces = new GameObject[32];
     public int[,] board = new int[10,10];
     public int[] prevf = new int[32];
@@ -133,6 +134,7 @@ public class FixPositions : MonoBehaviour
             prank[i] = (int)((pieces[i].transform.position.z+7.5)/1.5);
             board[prevf[i],prank[i]] = i;
         }
+        GameOverScreen.SetActive(false);
         //Debug.Log(board[5,1]);
         /*
         pos = new float[10]; //pos = {0f, -5.25f, -3.75f, -2.25f, -0.75f, 0.75f, 2.25f, 3.75f, 5.25f, 0f};
@@ -409,6 +411,7 @@ public class FixPositions : MonoBehaviour
                     Debug.Log("Game Over");
                     animationstep = 1;
                     audioSource.Play();
+                    GameOverScreen.SetActive(true);
                 }
             }
             else{
@@ -416,6 +419,7 @@ public class FixPositions : MonoBehaviour
                 Debug.Log("Game Over");
                 animationstep = 1;
                 audioSource.Play();
+                GameOverScreen.SetActive(true);
             }
         }
         /*
