@@ -40,6 +40,7 @@ public class FixPositions : MonoBehaviour
     public GameObject BP6;
     public GameObject BP7;
     public GameObject BP8;
+    public GameObject playercam;
     public GameObject[] pieces = new GameObject[32];
     public int[,] board = new int[10,10];
     public int[] prevf = new int[32];
@@ -48,7 +49,7 @@ public class FixPositions : MonoBehaviour
     public int turn = 0;
     public string[] alpha = new string[32];
     public int target = -1;
-    public int animation = 0;
+    public int animationstep = 0;
     public float oldx = 0;
     public float oldy = 0;
     public float xdiff = 0;
@@ -314,7 +315,7 @@ public class FixPositions : MonoBehaviour
                 }
             }
         }
-        else if(animation==0){
+        else if(animationstep==0){
             string FENstr = "";
             for(int i=1; i<=8; i++){
                 int count = 0;
@@ -354,6 +355,7 @@ public class FixPositions : MonoBehaviour
     			pProcess.StandardInput.WriteLine("quit");
     			output = pProcess.StandardOutput.ReadToEnd(); //The output result
     		}
+    		int mate1 = output.IndexOf("mate 1");
     		string best = output.Substring(output.IndexOf("bestmove"));
     		Debug.Log(best);
     		best = best.Substring(best.IndexOf(" ")+1,4);
@@ -369,22 +371,26 @@ public class FixPositions : MonoBehaviour
 				pieces[board[best[2]-96,best[3]-48]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
 			}
 			board[best[2]-96,best[3]-48] = target;
-			//animation = 1;
+			//animationstep = 1;
 			prevf[target] = best[2]-96;
 			prank[target] = best[3]-48;
 			pieces[target].transform.position = new Vector3((float)(-6.75+1.5*prevf[target]), (float)(0.45-(((int)(target/8))%2)*0.17), (float)(-6.75+1.5*prank[target]));
 		/*
         }
-        else if(animation<10){
-        	pieces[target].transform.position = new Vector3(oldx+animation*xdiff/10, (float)(0.45-(((int)(target/8))%2)*0.17), oldy+animation*ydiff/10);
-        	animation++;
+        else if(animationstep<10){
+        	pieces[target].transform.position = new Vector3(oldx+animationstep*xdiff/10, (float)(0.45-(((int)(target/8))%2)*0.17), oldy+animationstep*ydiff/10);
+        	animationstep++;
         	Thread.Sleep(50);
 		}
 		else{
 		*/
 			//pieces[target].transform.position = new Vector3(oldx+xdiff, (float)(0.45-(((int)(target/8))%2)*0.17), oldy+ydiff);
-			//animation = 0;
+			//animationstep = 0;
 			white = true;
+			if(mate1>-1){
+				playercam.transform.position = new Vector3(playercam.transform.position.x, 20.0f, playercam.transform.position.z);
+				Debug.Log("Game Over");
+			}
 		}
         /*
         if(transform.position.y < 1 && (Math.Abs(transform.eulerAngles.x) > 0.1)){
