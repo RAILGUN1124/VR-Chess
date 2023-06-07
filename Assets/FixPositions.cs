@@ -42,6 +42,7 @@ public class FixPositions : MonoBehaviour
     public GameObject BP8;
     public GameObject playercam;
     public AudioSource audioSource;
+    public AudioSource audioSourceCapture;
     public GameObject[] pieces = new GameObject[32];
     public int[,] board = new int[10,10];
     public int[] prevf = new int[32];
@@ -183,10 +184,12 @@ public class FixPositions : MonoBehaviour
                                 //capture
                                 valid = true;
                                 pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                audioSourceCapture.Play();
                             }
                             else if(((int)(i/16))%2==1 && Math.Abs(newfile-prevf[i])==1 && newrank==prank[i]-1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                 valid = true;
                                 pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                audioSourceCapture.Play();
                             }
                         }
                         else if(i==0 || i==7 || i==16 || i==23 /*rook*/){
@@ -206,10 +209,12 @@ public class FixPositions : MonoBehaviour
                                 else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                                 else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                             }
                         }
@@ -219,10 +224,12 @@ public class FixPositions : MonoBehaviour
                                 else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                                 else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                             }
                         }
@@ -236,10 +243,12 @@ public class FixPositions : MonoBehaviour
                                     else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                     else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                 }
                             }
@@ -261,10 +270,12 @@ public class FixPositions : MonoBehaviour
                                     else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                     else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                 }
                             }
@@ -277,10 +288,12 @@ public class FixPositions : MonoBehaviour
                                     else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                     else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                         valid = true;
                                         pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                        audioSourceCapture.Play();
                                     }
                                 }
                             }
@@ -291,10 +304,12 @@ public class FixPositions : MonoBehaviour
                                 else if(((int)(i/16))%2==0 && board[newfile,newrank]>=16){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                                 else if(((int)(i/16))%2==1 && board[newfile,newrank]<16 && board[newfile,newrank]>=0){
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
+                                    audioSourceCapture.Play();
                                 }
                             }
                         }
@@ -343,7 +358,7 @@ public class FixPositions : MonoBehaviour
             Debug.Log(FENstr);
             string output;
             using(System.Diagnostics.Process pProcess = new System.Diagnostics.Process()){
-                pProcess.StartInfo.FileName = @"C:\Users\Benjamin\Downloads\Program Files\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+                pProcess.StartInfo.FileName = @"C:\Users\123456\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
                 pProcess.StartInfo.UseShellExecute = false;
                 pProcess.StartInfo.RedirectStandardInput = true;
                 pProcess.StartInfo.RedirectStandardOutput = true;

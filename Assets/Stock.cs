@@ -15,7 +15,7 @@ public class Stock : MonoBehaviour
 string FENstr = "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3";
 using(System.Diagnostics.Process pProcess = new System.Diagnostics.Process())
 {
-    pProcess.StartInfo.FileName = @"C:\Users\Benjamin\Downloads\Program Files\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+    pProcess.StartInfo.FileName = @"C:\Users\123456\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
     //pProcess.StartInfo.Arguments = "position fen "+FENstr; //argument
     pProcess.StartInfo.UseShellExecute = false;
     pProcess.StartInfo.RedirectStandardInput = true;
