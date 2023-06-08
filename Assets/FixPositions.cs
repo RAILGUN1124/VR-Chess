@@ -360,7 +360,12 @@ public class FixPositions : MonoBehaviour
             Debug.Log(FENstr);
             string output;
             using(System.Diagnostics.Process pProcess = new System.Diagnostics.Process()){
-                pProcess.StartInfo.FileName = @"C:\Users\123456\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+                //Hardy
+                //pProcess.StartInfo.FileName = @"C:\Users\123456\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+                //Benjamin
+                // pProcess.StartInfo.FileName = @"C:\Users\Benjamin\Downloads\Program Files\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+                //Lawrence
+                pProcess.StartInfo.FileName = "/opt/homebrew/Cellar/stockfish/15.1/bin/stockfish";
                 pProcess.StartInfo.UseShellExecute = false;
                 pProcess.StartInfo.RedirectStandardInput = true;
                 pProcess.StartInfo.RedirectStandardOutput = true;
