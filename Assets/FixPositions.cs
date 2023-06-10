@@ -57,6 +57,10 @@ public class FixPositions : MonoBehaviour
     public float oldy = 0;
     public float xdiff = 0;
     public float ydiff = 0;
+    public bool K = true;
+    public bool Q = true;
+    public bool k = true;
+    public bool q = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -166,7 +170,7 @@ public class FixPositions : MonoBehaviour
     void Update()
     {
         if(white==true){
-            for(int i=0; i<32; i++){
+            for(int i=0; i<16 /* i<16 only checks white pieces. Use i<32 to check all pieces. */; i++){
                 if(Math.Abs(pieces[i].transform.position.y)<1 && (Math.Abs(pieces[i].transform.eulerAngles.x)>0.1)){
                     pieces[i].transform.eulerAngles = new Vector3(0f, 0f, 0f);
                     if(pieces[i].transform.position.x < -5.99 || pieces[i].transform.position.x > 5.99 || pieces[i].transform.position.z < -5.99 || pieces[i].transform.position.z > 5.99){
@@ -177,7 +181,7 @@ public class FixPositions : MonoBehaviour
                         int newrank = (int)((pieces[i].transform.position.z+7.5)/1.5);
                         bool valid = false;
                         bool invalid = false;
-                        if(((int)(i/8))%2==1 /*is pawn*/){
+                        if(((int)(i/8))%2==1 /*pawn*/){
                             if(((int)(i/16))%2==0 /*is white*/ && newfile==prevf[i] && newrank==prank[i]+1 && board[newfile,newrank]==-1){valid = true;}
                             else if(((int)(i/16))%2==0 && newfile==prevf[i] && newrank==prank[i]+2 && prank[i]==2 && board[newfile,newrank]==-1){valid = true;}
                             else if(((int)(i/16))%2==1 /*is black*/ && newfile==prevf[i] && newrank==prank[i]-1 && board[newfile,newrank]==-1){valid = true;}
@@ -217,6 +221,12 @@ public class FixPositions : MonoBehaviour
                                     valid = true;
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
                                     audioSourceCapture.Play();
+                                }
+                                if(valid){
+                                    if(i==0){Q = false;}
+                                    else if(i==7){K = false;}
+                                    else if(i==16){q = false;}
+                                    else if(i==23){k = false;}
                                 }
                             }
                         }
@@ -313,6 +323,56 @@ public class FixPositions : MonoBehaviour
                                     pieces[board[newfile,newrank]].transform.position = new Vector3(0.0f, -2.0f, 0.0f);
                                     audioSourceCapture.Play();
                                 }
+                                if(valid){
+                                    if(i==4){
+                                        K = false;
+                                        Q = false;
+                                    }
+                                    else if(i==20){
+                                        k = false;
+                                        q = false;
+                                    }
+                                }
+                            }
+                            else if(newrank==prank[i] && Math.Abs(newfile-prevf[i])==2){
+                                //additional requirement: the king and the castling squares must not be in check.
+                                //not implemented.
+                                int targetrook = -1;
+                                int rookfile = -1;
+                                if(i==4 && newfile==7 && K && board[6,1]==-1 && board[7,1]==-1){
+                                    valid = true;
+                                    targetrook = 7;
+                                    rookfile = 6;
+                                }
+                                else if(i==4 && newfile==3 && Q && board[4,1]==-1 && board[3,1]==-1 && board[2,1]==-1){
+                                    valid = true;
+                                    targetrook = 0;
+                                    rookfile = 4;
+                                }
+                                else if(i==20 && newfile==7 && k && board[6,8]==-1 && board[7,8]==-1){
+                                    valid = true;
+                                    targetrook = 23;
+                                    rookfile = 6;
+                                }
+                                else if(i==20 && newfile==3 && q && board[4,8]==-1 && board[3,8]==-1 && board[2,8]==-1){
+                                    valid = true;
+                                    targetrook = 16;
+                                    rookfile = 4;
+                                }
+                                if(valid){
+                                    board[prevf[targetrook],prank[targetrook]] = -1;
+                                    board[rookfile,prank[targetrook]] = targetrook;
+                                    prevf[targetrook] = rookfile;
+                                    pieces[targetrook].transform.position = new Vector3((float)(-6.75+1.5*rookfile), 0.45f, (float)(-6.75+1.5*prank[targetrook]));
+                                    if(i==4){
+                                        K = false;
+                                        Q = false;
+                                    }
+                                    else if(i==20){
+                                        k = false;
+                                        q = false;
+                                    }
+                                }
                             }
                         }
                         if(valid){
@@ -362,9 +422,9 @@ public class FixPositions : MonoBehaviour
                 //Hardy
                 //pProcess.StartInfo.FileName = @"C:\Users\123456\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
                 //Benjamin
-                //pProcess.StartInfo.FileName = @"C:\Users\Benjamin\Downloads\Program Files\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
+                pProcess.StartInfo.FileName = @"C:\Users\Benjamin\Downloads\Program Files\stockfish_15.1_win_x64_avx2\stockfish-windows-2022-x86-64-avx2.exe";
                 //Lawrence
-                pProcess.StartInfo.FileName = "/opt/homebrew/Cellar/stockfish/15.1/bin/stockfish";
+                //pProcess.StartInfo.FileName = "/opt/homebrew/Cellar/stockfish/15.1/bin/stockfish";
                 pProcess.StartInfo.UseShellExecute = false;
                 pProcess.StartInfo.RedirectStandardInput = true;
                 pProcess.StartInfo.RedirectStandardOutput = true;
