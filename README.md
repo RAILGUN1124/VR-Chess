@@ -1,1 +1,3 @@
 # VR-Chess
+
+Collaborated within a dynamic team to develop an innovative VR Chess game using Unity, aimed at promoting physical activity. Led comprehensive gameplay testing to evaluate and ensure the functionality of in-game elements and mechanics. Contributed to scripting official chess logic, integrating a sophisticated chess engine for player interaction, and developing feedback features to enhance user experience. Implemented numerous safeguards to prevent players from making incorrect chess moves, ensuring accurate and correct gameplay. Players assume the role of chess pieces to simulate piece movements, competing against Stockfish with players always assigned as white and Stockfish as black.
